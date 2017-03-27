@@ -39,4 +39,4 @@ Vue.Component("Lightbox",Lightbox)
 
 - add watch when props change
 
-- add for different browser
+- test for different browser

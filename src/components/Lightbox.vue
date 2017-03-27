@@ -211,9 +211,11 @@ const ModalManager = {
 
     //add click hide event listener
     if (pic.clickOverlayHide) {
-        on(self._overlay,"click",this.end)
-    }else{
-        off(self._overlay,"click",this.end)
+        console.log("enddddd")
+        once(self._overlay,"click",(event)=>{
+            self.end()
+            event.stopPropagation()
+        })
     }
 
 

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+
     <lightbox album="mm" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS314.jpg" caption="wa hahahhahhah " indexTmpl="${d}/${total}">
       <img width="100px" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS314.jpg">
     </lightbox>
@@ -27,7 +28,7 @@
       
     </lightbox>
 
-
+    
   </div>
 </template>
 
@@ -53,4 +54,18 @@
     color: #2c3e50;
     margin-top: 60px;
   }
+
+  input{
+  width:300px;
+  -moz-transition-duration:1s;
+  -webkit-transition-duration:1s;
+  -o-transition-duration:1s;
+  transitition-duration:1s;
+}
+input:hover{
+  width:500px;
+}
+input:focus{
+  width:500px;
+}
 </style>

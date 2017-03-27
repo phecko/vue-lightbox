@@ -425,8 +425,6 @@ function elemShowOrHide(elem,show){
 
     elem.style.display = newDisplay
 
-    console.log(elem,show,elem.style.display)
-
     return elem;
 }
 
@@ -446,4 +444,64 @@ export function htmlEncode(html){
     var output = temp.innerHTML;
     temp = null;
     return output;
+}
+
+
+var whichTransitionEvent =  ()=>{
+    var t;
+    var el = document.createElement('fakeelement');
+    var transitions = {
+      'transition':'transitionend',
+      'OTransition':'oTransitionEnd',
+      'MozTransition':'transitionend',
+      'WebkitTransition':'webkitTransitionEnd'
+    }
+
+    for(t in transitions){
+        if( el.style[t] !== undefined ){
+            return transitions[t];
+        }
+    }
+}
+
+
+function whichAnimationEvent(){
+  var t,
+      el = document.createElement("fakeelement");
+
+  var animations = {
+    "animation"      : "animationend",
+    "OAnimation"     : "oAnimationEnd",
+    "MozAnimation"   : "animationend",
+    "WebkitAnimation": "webkitAnimationEnd"
+  }
+
+  for (t in animations){
+    if (el.style[t] !== undefined){
+      return animations[t];
+    }
+  }
+}
+
+/* Listen for a transition! */
+export function transition(elem,transitionFunc=(el)=>{},callback=(e)=>{}){
+  var transitionEvent = whichTransitionEvent();
+  if(transitionEvent){
+    transitionFunc(elem)
+    once(elem,transitionEvent,(event)=>{
+      callback(event)
+    })
+  }
+}
+
+
+export function animate(elem,animateClass,callback=(e)=>{}){
+  var listenAnimationEvent
+  var animationEvent = whichAnimationEvent();
+  if(animationEvent){
+    addClass(elem,animateClass)
+    once(elem,animationEvent,(event)=>{
+      callback(event)
+    })
+  }
 }

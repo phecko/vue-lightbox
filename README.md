@@ -35,9 +35,8 @@ Vue.Component("Lightbox",Lightbox)
 
 ## Todo
 
-- add animate : 
-	- lightbox show/hide
-	- container resize
-	- image change
+
 
 - add watch when props change
+
+- add for different browser

@@ -6,7 +6,7 @@
 
 <script>
 
-import {on,off,once,addClass,setStyle,show,hide,htmlEncode} from './utils.js'
+import {on,off,once,addClass,removeClass,setStyle,show,hide,htmlEncode,animate,transition} from './utils.js'
 
 const getUid = ()=>{
   return (""+(new Date()).getTime()+parseInt(Math.random()*1000)).toString(32)
@@ -32,6 +32,20 @@ const imageBorderWidth = {
   right : 4,
   bottom : 4,
   left : 4
+}
+
+let animateEnter = (elem,className)=>{
+    animate(elem,className,(e)=>{
+        console.log("remove ",className)
+        removeClass(elem,className)
+    })
+}
+
+let animateLeave = (elem,className)=>{
+    animate(elem,className,(e)=>{
+        hide(elem)
+        removeClass(elem,className)
+    })
 }
 
 
@@ -109,7 +123,7 @@ const ModalManager = {
       return
     }
     let div = document.createElement("div")
-    div.innerHTML = '<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption">这是一张很大大的图片</span><span class="lb-number">1 of 5 images</span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div>'
+    div.innerHTML = '<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number">1 of 5 images</span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div>'
     let divs = div.childNodes
     let elements = []
     for (var i = 0; i < divs.length; i++) {
@@ -173,14 +187,17 @@ const ModalManager = {
     this.init()
     var self = this
     this.sizeOverlay()
+    animateEnter(this._overlay,"lb-overlay-enter")
+    animateEnter(this._lightbox,"lb-lightbox-fade-enter-active")
     show(this._overlay)
+
     show(this._lightbox)
     this.showImage(albumName,uid)
   },
 
   end(){
-    hide(ModalManager._overlay)
-    hide(ModalManager._lightbox)
+    animateLeave(this._overlay,"lb-overlay-leave")
+    animateLeave(this._lightbox,"lb-lightbox-fade-leave-active")
   },
 
   showImage(albumName,uid){
@@ -203,7 +220,7 @@ const ModalManager = {
     var preloader = new Image();
     let navPrev = this._nav.querySelector(".lb-prev")
     let navNext = this._nav.querySelector(".lb-next")
-    setStyle(this._image,"visibility","hidden")
+    hide(this._image)
     show(this._loader)
     hide(this._nav)
     hide(navPrev)
@@ -212,11 +229,20 @@ const ModalManager = {
 
         let imageWidth = preloader.width,
           imageHeight = preloader.height
-        self.sizeContainer(imageWidth,imageHeight)
-        setStyle(self._loader,"display","none")
+
+
+        transition(self._outerContainer,(elem)=>{
+            self.sizeContainer(imageWidth,imageHeight)
+        },(e)=>{
+            animateEnter($image,"lb-image-enter")
+            show($image)
+        })
+
+        hide(self._loader)
 
         $image.src = preloader.src
-        setStyle(self._image,"visibility","visible")
+       
+
 
     }
 
@@ -340,6 +366,7 @@ const ModalManager = {
     setStyle(this._image,"width",newImageWidth+"px")
     setStyle(this._image,"height",newImageHeight+"px")
 
+
   },
 
   positionLightbox(width,height){
@@ -456,6 +483,10 @@ body.lb-disable-scrolling {
   text-align: center;
   line-height: 0;
   font-weight: normal;
+    -moz-transition-duration:0.2s;
+    -webkit-transition-duration:0.2s;
+    -o-transition-duration:0.2s;
+    transitition-duration:0.2s;
 }
 
 .lightbox .lb-image {
@@ -484,6 +515,11 @@ body.lb-disable-scrolling {
   /* Background color behind image.
      This is visible during transitions. */
   background-color: white;
+
+  -moz-transition-duration:0.2s;
+    -webkit-transition-duration:0.2s;
+    -o-transition-duration:0.2s;
+    transitition-duration:0.2s;
 }
 
 .lb-outerContainer:after {
@@ -644,5 +680,47 @@ body.lb-disable-scrolling {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
 }
+
+.lb-lightbox-fade-enter-active{
+  animation:lb-lightbox-fade-in .3s
+}
+.lb-lightbox-fade-leave-active{
+  animation:lb-lightbox-fade-out .3s
+}
+@keyframes lb-lightbox-fade-in{
+  0%{transform:translate3d(0,-20px,0);opacity:0}to{transform:translateZ(0);opacity:1}
+}
+@keyframes lb-lightbox-fade-out{
+  0%{transform:translateZ(0);opacity:1}to{transform:translate3d(0,-20px,0);opacity:0}
+}
+
+.lb-overlay-enter{
+  animation:lb-overlay-in .2s ease
+}
+.lb-overlay-leave{
+    animation:lb-overlay-out .2s ease forwards
+}
+@keyframes lb-overlay-in{
+    0%{opacity:0}
+}
+@keyframes lb-overlay-out{
+    to{opacity:0}
+}
+
+.lb-image-enter{
+  animation:lb-image-in .2s ease
+}
+.lb-image-leave{
+    animation:lb-image-out .2s ease forwards
+}
+@keyframes lb-image-in{
+    0%{opacity:0}
+}
+@keyframes lb-image-out{
+    to{opacity:0}
+}
+
+
+
 
 </style>

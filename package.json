@@ -1,6 +1,6 @@
 {
   "name": "vue-lightbox",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple lightbox component for vue",
   "author": "Pheko",
   "private": true,

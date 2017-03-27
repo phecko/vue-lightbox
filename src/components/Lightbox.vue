@@ -155,14 +155,12 @@ const ModalManager = {
     })
 
     on(this._nav.querySelector(".lb-prev"),"click",(event)=>{
-      console.log("wahahah")
       self.changeImage(self.curIndex-1)
       event.preventDefault()
       event.stopPropagation()
     })
 
     on(this._nav.querySelector(".lb-next"),"click",(event)=>{
-      console.log("wahahah")
       self.changeImage(self.curIndex+1)
       event.preventDefault()
       event.stopPropagation()
@@ -282,17 +280,13 @@ const ModalManager = {
 
   changeImage(index){
     if (!this.curAlbum) {
-      console.log("noalbum")
       return
     }
 
-    console.log(this.curAlbum,index)
     var pp = this.curAlbum.getPicture(index)
-    console.log(this.curAlbum.getPicture(index))
     if (pp.len) {
       return
     }
-    console.log(pp)
 
 
     this.showImage(this.curAlbum.name,pp)
@@ -323,7 +317,6 @@ const ModalManager = {
       maxHeight = getWinHeight()-80- containerPadding.top - imageBorderWidth.top - imageBorderWidth.bottom - containerPadding.bottom - dataContainerHeight,
       ratio = imageWidth/imageHeight
 
-      console.log(maxWidth,maxHeight,newWidth,newHeight)
 
     if (newWidth>maxWidth) {
       newWidth = maxWidth

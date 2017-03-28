@@ -36,7 +36,6 @@ const imageBorderWidth = {
 
 let animateEnter = (elem,className)=>{
     animate(elem,className,(e)=>{
-        console.log("remove ",className)
         removeClass(elem,className)
     })
 }
@@ -211,11 +210,12 @@ const ModalManager = {
 
     //add click hide event listener
     if (pic.clickOverlayHide) {
-        console.log("enddddd")
         once(self._overlay,"click",(event)=>{
             self.end()
             event.stopPropagation()
         })
+    }else{
+        off(self._overlay,"click")
     }
 
 

@@ -8,7 +8,7 @@
       <img width="100px" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS327.jpg">
       
     </lightbox>
-    <lightbox album="mm" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS333.jpg">
+    <lightbox album="mm" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS333.jpg" :click-overlay-hide="false">
       <img width="100px" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS333.jpg">
       
     </lightbox>

@@ -23,12 +23,14 @@ export const on = (function() {
   if (document.addEventListener) {
     return function(element, event, handler) {
       if (element && event && handler) {
+        element._eventListener = handler
         element.addEventListener(event, handler, false);
       }
     };
   } else {
     return function(element, event, handler) {
       if (element && event && handler) {
+        element._eventListener = handler
         element.attachEvent('on' + event, handler);
       }
     };
@@ -40,12 +42,20 @@ export const off = (function() {
   if (document.removeEventListener) {
     return function(element, event, handler) {
       if (element && event) {
+        if (!handler && element._eventListener) {
+          handler = element._eventListener
+          element._eventListener = undefined
+        }
         element.removeEventListener(event, handler, false);
       }
     };
   } else {
     return function(element, event, handler) {
       if (element && event) {
+        if (!handler && element._eventListener) {
+          handler = element._eventListener
+          element._eventListener = undefined
+        }
         element.detachEvent('on' + event, handler);
       }
     };

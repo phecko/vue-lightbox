@@ -4,7 +4,7 @@
 
 ## How to use it
 
-[Example on jsbin](http://jsbin.com/jaqenayeju/edit?html,output)
+[Example on jsbin](http://jsbin.com/divitevegu/edit?html,output)
 
 
 ``` bash

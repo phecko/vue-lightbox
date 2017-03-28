@@ -34,11 +34,12 @@
 
 <script>
   // import Lightbox from '../dist/vue-lightbox.js'
-  import Lightbox from './index.js'
+  var Lightbox =  require('./index.js')
+  console.log(Lightbox.VueLightbox)
   export default {
     name: 'app',
     components: {
-      lightbox:Lightbox
+      lightbox:Lightbox.VueLightbox
     }
   }
 </script>

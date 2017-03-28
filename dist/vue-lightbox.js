@@ -2,11 +2,11 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define([], factory);
+		define("VueLightbox", [], factory);
 	else if(typeof exports === 'object')
-		exports["Lightbox"] = factory();
+		exports["VueLightbox"] = factory();
 	else
-		root["Lightbox"] = factory();
+		root["VueLightbox"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache

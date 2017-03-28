@@ -35,8 +35,9 @@ var webpackConfig = merge(baseWebpackConfig, {
     // filename: utils.assetsPath('js/[name].[chunkhash].js'),
     // chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
     filename: utils.assetsPath('vue-lightbox.js'),
-    library: 'Lightbox',
-    libraryTarget: 'umd'
+    library: 'VueLightbox',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html

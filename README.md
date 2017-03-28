@@ -6,10 +6,18 @@
 
 ``` bash
 # import 
-import Lightbox from 'vue-lightbox'
-	...
-# register component 
-Vue.Component("Lightbox",Lightbox)
+import VueLightbox from 'vue-lightbox'
+Vue.component("Lightbox",VueLightbox)
+
+or
+
+var VueLightbox = required('./vue-lightbox.js') 
+or
+<script type="text/javascript" src="./vue-lightbox.js"></script>
+Vue.component("Lightbox",VueLightbox.VueLightbox)
+
+
+
 
 # use
 # some album pictures will be grouped

@@ -410,8 +410,8 @@ const ModalManager = {
 
 
 
-export default {
-    name: 'hello',
+export default  {
+    name: 'VueLightbox',
     props:{
         src:{
             type:String

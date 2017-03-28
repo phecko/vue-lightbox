@@ -32,11 +32,9 @@
   </div>
 </template>
 
-
 <script>
   // import Lightbox from '../dist/vue-lightbox.js'
-  import Lightbox from './components/Lightbox.vue'
-
+  import Lightbox from './index.js'
   export default {
     name: 'app',
     components: {

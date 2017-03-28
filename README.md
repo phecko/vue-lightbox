@@ -4,6 +4,9 @@
 
 ## How to use it
 
+[Example on jsbin](http://jsbin.com/jaqenayeju/edit?html,output)
+
+
 ``` bash
 # import 
 import VueLightbox from 'vue-lightbox'

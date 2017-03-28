@@ -6,7 +6,7 @@
 
 ``` bash
 # import 
-import Lightbox from './components/Lightbox.vue'
+import Lightbox from 'vue-lightbox'
 	...
 # register component 
 Vue.Component("Lightbox",Lightbox)

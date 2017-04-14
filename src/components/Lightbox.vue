@@ -122,7 +122,7 @@ const ModalManager = {
       return
     }
     let div = document.createElement("div")
-    div.innerHTML = '<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number">1 of 5 images</span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div>'
+    div.innerHTML = '<div id="vue-lightboxOverlay" class="lightboxOverlay"></div><div id="vue-lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number">1 of 5 images</span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div>'
     let divs = div.childNodes
     let elements = []
     for (var i = 0; i < divs.length; i++) {
@@ -134,8 +134,8 @@ const ModalManager = {
     }
       document.body.appendChild(docFrag)
 
-    this._lightbox = document.getElementById("lightbox")
-    this._overlay = document.getElementById("lightboxOverlay")
+    this._lightbox = document.getElementById("vue-lightbox")
+    this._overlay = document.getElementById("vue-lightboxOverlay")
     this._outerContainer = this._lightbox.querySelector(".lb-outerContainer")
     this._container = this._lightbox.querySelector(".lb-container")
     this._image = this._lightbox.querySelector(".lb-image")
@@ -478,7 +478,7 @@ body.lb-disable-scrolling {
 }
 
 .lightbox {
-  position: absolute;
+  position: fixed;
   left: 0;
   width: 100%;
   z-index: 10000;

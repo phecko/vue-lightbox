@@ -28,6 +28,23 @@
       
     </lightbox>
 
+    <div style="height:900px;"></div>
+     <br>
+    <lightbox album="bb" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS346.jpg">
+      <img width="100px" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS346.jpg">
+      
+    </lightbox>
+
+    <lightbox album="bb" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS352.jpg">
+      <img width="100px" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS352.jpg">
+      
+    </lightbox>
+    <br>
+    <lightbox album="" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS417.jpg">
+      <img width="100px" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS417.jpg">
+      
+    </lightbox>
+
     
   </div>
 </template>

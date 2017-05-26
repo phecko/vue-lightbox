@@ -49,13 +49,14 @@ let animateLeave = (elem,className)=>{
 
 
 class Picture {
-  constructor(src,caption,showIndex,indexTmpl,clickOverlayHide){
+  constructor(src,caption,showIndex,indexTmpl,clickOverlayHide,album=""){
     this.src = src
     this.uid = getUid()
     this.caption = caption
     this.showIndex = showIndex
     this.clickOverlayHide = clickOverlayHide
     this.indexTmpl = indexTmpl
+    this.album=album
   }
 }
 
@@ -89,7 +90,16 @@ class Album {
     return this.pictures.length
   }
 
+  removePicture(uid){
+    let index = this.getPictureIndex(uid)
+    if (index > 0) {
+       this.pictures.splice(index-1,1)
+    }
+  }
+
 }
+
+
 
 
 const ModalManager = {
@@ -232,13 +242,18 @@ const ModalManager = {
         let imageWidth = preloader.width,
           imageHeight = preloader.height
 
+        let isSizeChange = self.sizeContainer(imageWidth,imageHeight)
 
-        transition(self._outerContainer,(elem)=>{
-            self.sizeContainer(imageWidth,imageHeight)
-        },(e)=>{
-            animateEnter($image,"lb-image-enter")
-            show($image)
-        })
+        if (!isSizeChange) {
+          animateEnter($image,"lb-image-enter")
+          show($image)
+        }else{
+          transition(self._outerContainer,(elem)=>{
+          },(e)=>{
+              animateEnter($image,"lb-image-enter")
+              show($image)
+          })
+        }
 
         hide(self._loader)
 
@@ -312,7 +327,7 @@ const ModalManager = {
     }
 
     var pp = this.curAlbum.getPicture(index)
-    if (pp.len) {
+    if (!pp) {
       return
     }
 
@@ -326,6 +341,8 @@ const ModalManager = {
     // setStyle(this._overlay,"height",window.scrollHeight+"px")
   },
 
+
+  // return  if the container size has change
   sizeContainer(imageWidth,imageHeight){
 
     if (imageWidth==0 || imageHeight==0) {
@@ -333,8 +350,8 @@ const ModalManager = {
     }
 
     var self = this
-    var oldWidth = this._outerContainer.outerWidth
-    var oldHeight = this._outerContainer.outerHeight
+    var oldWidth = this._outerContainer.offsetWidth
+    var oldHeight = this._outerContainer.offsetHeight
 
     let newWidth = containerPadding.left + imageBorderWidth.left + imageWidth + imageBorderWidth.right + containerPadding.right
 
@@ -355,9 +372,14 @@ const ModalManager = {
       newWidth = ratio*newHeight
     }
 
+    newWidth = parseInt(newWidth)
+    newHeight = parseInt(newHeight)
+
     setStyle(this._outerContainer,"width",newWidth+"px")
     setStyle(this._lightbox,"width",newWidth+"px")
     setStyle(this._outerContainer,"height",newHeight+"px")
+
+
 
     this.positionLightbox(newWidth,newHeight)
 
@@ -368,6 +390,11 @@ const ModalManager = {
     setStyle(this._image,"width",newImageWidth+"px")
     setStyle(this._image,"height",newImageHeight+"px")
 
+    // when size no change,trigger transition event
+    if (newWidth == oldWidth && newHeight == oldHeight) {
+      return false
+    }
+    return true
 
   },
 
@@ -384,7 +411,7 @@ const ModalManager = {
 
   addToAlbum(name,src,caption,showIndex,indexTmpl,clickOverlayHide){
 
-    let pic  = new Picture(src,caption,showIndex,indexTmpl,clickOverlayHide)
+    let pic  = new Picture(src,caption,showIndex,indexTmpl,clickOverlayHide,name)
     this._pictures[pic.uid] = pic
     if (!name) {
       return pic.uid
@@ -403,6 +430,17 @@ const ModalManager = {
 
   getPicture(uid){
     return this._pictures[uid]
+  },
+
+  removePicture(album,uid){
+    if (album) {
+      let a = this.getAlbum(album)
+      if (a) {
+        a.removePicture(uid)
+      }
+    }
+
+    // delete this._pictures[uid]
   }
 
 }
@@ -435,6 +473,29 @@ export default  {
             type:Boolean,
             default:true
         }},
+    watch:{
+        uid(val,oldVal){
+          if(!val){
+            ModalManager.removePicture(this.album,oldVal)
+          }
+        },
+        uuid(val,oldVal){
+          if (this.uid) {
+            let pic = ModalManager.getPicture(this.uid)
+            if (pic) {
+              ModalManager.removePicture(pic.album,this.uid)
+            }
+            if (val && pic) {
+              this.uid = ModalManager.addToAlbum(this.album, this.src, this.caption, this.showIndex, this.indexTmpl, this.clickOverlayHide)
+            }
+          }
+        }
+    },
+    computed:{
+        uuid(){
+            return this.src+"-"+this.album
+        }
+    },
     data () {
       return {
         uid:""
@@ -442,11 +503,25 @@ export default  {
     },
     methods:{
       open(){
-        ModalManager.start(this.album,this.uid)
+        if (this.uid) {
+          let pic = ModalManager.getPicture(this.uid)
+          if (pic){
+            pic.src = this.src
+            pic.caption = this.caption
+            pic.indexTmpl = this.indexTmpl
+            pic.clickOverlayHide = this.clickOverlayHide
+            pic.showIndex = this.showIndex
+          }
+          ModalManager.start(this.album, this.uid);
+        }
       }
     },
     mounted(){
       this.uid = ModalManager.addToAlbum(this.album,this.src,this.caption,this.showIndex,this.indexTmpl,this.clickOverlayHide)
+    },
+    destroyed(){
+      ModalManager.removePicture(this.album,this.uid)
+
     }
 }
 </script>

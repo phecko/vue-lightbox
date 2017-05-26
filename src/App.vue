@@ -1,11 +1,41 @@
 <template>
   <div id="app">
 
+    <button @click="changeImage">change</button>
+    <button @click="destory=!destory">destory</button>
+    <br/>         
+  <table>
+    <template  v-for="(image,index) in images">
+        <tr>
+            <td> 
+                <lightbox album="mm9" :src="image" :album="'wa hahahhahhah'+index " indexTmpl="${d}/${total}" v-if="image">
+                    <a href="#" @click.prevent="">click</a>
+                </lightbox>
+            </td>
+            <td>{{index}}</td>
+        </tr>
+    </template>
+  </table>
+
+    <br/>         
+
     <lightbox album="mm" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS314.jpg" caption="wa hahahhahhah " indexTmpl="${d}/${total}">
       <img width="100px" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS314.jpg">
     </lightbox>
     <lightbox album="mm" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS327.jpg">
       <img width="100px" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS327.jpg">
+      
+    </lightbox>
+    <lightbox album="mm" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS327.jpg">
+      <img width="100px" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS327.jpg">
+      
+    </lightbox>
+    <lightbox album="mm" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS327.jpg">
+      <img width="100px" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS327.jpg">
+      
+    </lightbox>
+    <lightbox album="mm" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS333.jpg" :click-overlay-hide="false">
+      <img width="100px" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS333.jpg">
       
     </lightbox>
     <lightbox album="mm" src="http://www.tadewo.com/uploads/allimg/130607/1-13060FS333.jpg" :click-overlay-hide="false">
@@ -57,7 +87,37 @@
     name: 'app',
     components: {
       lightbox:Lightbox.VueLightbox
+    },
+    data(){
+      return {
+        images1 :[
+          "http://www.tadewo.com/uploads/allimg/130607/1-13060FS314.jpg",
+          "",
+          "http://www.tadewo.com/uploads/allimg/130607/1-13060FS417.jpg",
+          "",
+          ""
+        ],
+        images2 :[
+          "http://www.tadewo.com/uploads/allimg/130607/1-13060FS346.jpg",
+          "http://www.tadewo.com/uploads/allimg/130607/1-13060FS346.jpg",
+          "",
+          "http://www.tadewo.com/uploads/allimg/130607/1-13060FS352.jpg",
+          ""
+        ],
+        images : [],
+        destory:true
+      }
+    },
+    methods :{
+      changeImage(){
+        if (this.images == this.images1) {
+          this.images = this.images2
+        }else{
+          this.images = this.images1
+        }
+      }
     }
+
   }
 </script>
 
